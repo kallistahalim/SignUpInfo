@@ -17,22 +17,27 @@
   var age = 0;
   var interest = "";
 
-  $(".btn").on("click", function() {
-      name = $("#name").val().trim();  
-      email = $("#email").val().trim();  
-      age = $("#age").val().trim();  
-      interest = $("#interest").val().trim();  
+  $("button").on("click", function() {
+      name = $("#input-name").val().trim();  
+      email = $("#input-email").val().trim();  
+      age = $("#input-age").val().trim();  
+      interest = $("#input-interest").val().trim(); 
 
       firebase.database().ref().push({
         name: name,
         email: email,
         age: age,
-        interest: interest
+        interest: interest,
+        dateAdded: firebase.database.ServerValue.TIMESTAMP
         
     });
   });
 
-  firebase.database().ref().on("value", function(snapshot) {
+  firebase.database().ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
       console.log(snapshot.val());
+      $("#name").html(snapshot.val().name);
+      $("#email").html(snapshot.val().email);
+      $("#age").html(snapshot.val().age);
+      $("#interest").html(snapshot.val().interest);
   })
 
