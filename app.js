@@ -41,3 +41,10 @@
       $("#interest").html(snapshot.val().interest);
   })
 
+  firebase.database().ref().on("child_added", function(snapshot) {
+      $(".all").append("<p>" + snapshot.val().name + "</p>")
+      $(".all").append("<p>" + snapshot.val().email + "</p>")
+      $(".all").append("<p>" + snapshot.val().age + "</p>")
+      $(".all").append("<p>" + snapshot.val().interest + "</p>")
+      $(".all").append("<hr>");
+  })
